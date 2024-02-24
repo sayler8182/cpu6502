@@ -5,10 +5,11 @@ import PackageDescription
 
 let package = Package(
     name: "cpu6502Core",
+    platforms: [.iOS(.v12), .macOS(.v12)],
     products: [
         .library(
             name: "cpu6502Core",
-            targets: ["cpu6502Core"]),
+            targets: ["cpu6502Core"])
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint.git", from: "0.54.0")
@@ -19,6 +20,6 @@ let package = Package(
             plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]),
         .testTarget(
             name: "cpu6502CoreTests",
-            dependencies: ["cpu6502Core"]),
+            dependencies: ["cpu6502Core"])
     ]
 )
