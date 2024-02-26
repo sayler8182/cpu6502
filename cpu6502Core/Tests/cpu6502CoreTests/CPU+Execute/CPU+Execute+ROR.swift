@@ -2,7 +2,7 @@ import XCTest
 
 @testable import cpu6502Core
 
-final class CPUExecuteLSRTests: XCTestCase {
+final class CPUExecuteRORTests: XCTestCase {
     private var cpu: CPU!
     private var memory: Memory!
 
@@ -21,28 +21,10 @@ final class CPUExecuteLSRTests: XCTestCase {
         memory = nil
     }
 
-    func test_LSR_ACC() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ACC
-        cpu.registers.A = 0b00000110
-        memory[CPU.START_PC] = opcode.byte
-
-        let initFlags = cpu.flags
-        let cycles = try cpu.execute(
-            memory: &memory,
-            cycles: 2)
-
-        XCTAssertEqual(cpu.registers.A, 0b00000011)
-        XCTAssertEqual(cycles, 2)
-        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
-        XCTFlagFalse(flag: .C, in: cpu.flags)
-        XCTFlagFalse(flag: .N, in: cpu.flags)
-        XCTFlagFalse(flag: .Z, in: cpu.flags)
-        XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
-    }
-
-    func test_LSR_ACC_carry() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ACC
-        cpu.registers.A = 0b10000111
+    func test_ROR_ACC() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ACC
+        cpu.flags.C = false
+        cpu.registers.A = 0b10000110
         memory[CPU.START_PC] = opcode.byte
 
         let initFlags = cpu.flags
@@ -53,14 +35,35 @@ final class CPUExecuteLSRTests: XCTestCase {
         XCTAssertEqual(cpu.registers.A, 0b01000011)
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
-        XCTFlagTrue(flag: .C, in: cpu.flags)
+        XCTFlagFalse(flag: .C, in: cpu.flags)
         XCTFlagFalse(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
     }
 
-    func test_LSR_ZP() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ZP
+    func test_ROR_ACC_carry() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ACC
+        cpu.flags.C = true
+        cpu.registers.A = 0b01000111
+        memory[CPU.START_PC] = opcode.byte
+
+        let initFlags = cpu.flags
+        let cycles = try cpu.execute(
+            memory: &memory,
+            cycles: 2)
+
+        XCTAssertEqual(cpu.registers.A, 0b10100011)
+        XCTAssertEqual(cycles, 2)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
+        XCTFlagTrue(flag: .C, in: cpu.flags)
+        XCTFlagTrue(flag: .N, in: cpu.flags)
+        XCTFlagFalse(flag: .Z, in: cpu.flags)
+        XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
+    }
+
+    func test_ROR_ZP() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ZP
+        cpu.flags.C = false
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_PC + 1] = 0x42
         memory[0x0042] = 0b10000111
@@ -79,8 +82,9 @@ final class CPUExecuteLSRTests: XCTestCase {
         XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
     }
 
-    func test_LSR_ZPX() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ZPX
+    func test_ROR_ZPX() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ZPX
+        cpu.flags.C = false
         cpu.registers.X = 0x5
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_PC + 1] = 0x42
@@ -100,8 +104,9 @@ final class CPUExecuteLSRTests: XCTestCase {
         XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
     }
 
-    func test_LSR_ABS() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ABS
+    func test_ROR_ABS() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ABS
+        cpu.flags.C = false
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_PC + 1] = 0x80
         memory[CPU.START_PC + 2] = 0x44 // 0x4480
@@ -121,8 +126,9 @@ final class CPUExecuteLSRTests: XCTestCase {
         XCTFlagsUnchanged(skip: [.C, .N, .Z], from: initFlags, to: cpu.flags)
     }
 
-    func test_LSR_ABSX() throws {
-        let opcode = CPU.Instruction.LSR_OPCODE.ABSX
+    func test_ROR_ABSX() throws {
+        let opcode = CPU.Instruction.ROR_OPCODE.ABSX
+        cpu.flags.C = false
         cpu.registers.X = 0x5
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_PC + 1] = 0x80

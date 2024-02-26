@@ -5,6 +5,8 @@ extension CPU {
             case N = 7
             /// Overflow
             case V = 6
+            /// Unused
+            case U = 5
             /// Break
             case B = 4
             /// Decimal mode
@@ -16,10 +18,15 @@ extension CPU {
             /// Carry Flag
             case C = 0
 
+            public var value: Byte {
+                1 << rawValue
+            }
+
             public var debugDescription: String {
                 switch self {
                 case .N: return "N"
                 case .V: return "V"
+                case .U: return "U"
                 case .B: return "B"
                 case .D: return "D"
                 case .I: return "I"
@@ -40,6 +47,11 @@ extension CPU {
         public var V: Bool {
             get { self[.V] }
             set { self[.V] = newValue }
+        }
+        /// Unused
+        public var U: Bool {
+            get { self[.U] }
+            set { self[.U] = newValue }
         }
         /// Break
         public var B: Bool {

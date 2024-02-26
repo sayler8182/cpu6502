@@ -52,6 +52,46 @@ internal struct Executor {
                 cpu: &cpu,
                 memory: &memory,
                 opcode: opcode)
+        case .PHA(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .PHP(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .PLA(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .PLP(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .ROL(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .ROR(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .RTI(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .RTS(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
         case .undefined(let byte):
             throw CPUError.undefinedInstruction(byte)
         }

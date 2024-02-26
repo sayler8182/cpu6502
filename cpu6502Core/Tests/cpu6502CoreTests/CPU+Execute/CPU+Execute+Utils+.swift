@@ -3,8 +3,27 @@ import XCTest
 @testable import cpu6502Core
 
 extension XCTestCase {
-    func XCTProgramCounter(_ pc: Word,
-                           _ size: Byte,
+    /// Verifies if the Program Counter is correctly set
+    /// - pc: Program Counter
+    /// - equal value: correct Program Counter
+    func XCTProgramCounter(pc: Word,
+                           equal value: Word,
+                           file: StaticString = #filePath,
+                           line: UInt = #line) {
+        XCTAssertEqual(
+            pc,
+            value,
+            "Program counter is \(pc.hex) instead of \(value.hex)",
+            file: file,
+            line: line
+        )
+    }
+
+    /// Verifies if the Program Counter is correctly set
+    /// - pc: Program Counter
+    /// - size: executed OPCODE size
+    func XCTProgramCounter(pc: Word,
+                           size: Byte,
                            file: StaticString = #filePath,
                            line: UInt = #line) {
         let result = CPU.START_PC + Word(size)
@@ -12,6 +31,25 @@ extension XCTestCase {
             pc,
             result,
             "Program counter is \(pc.hex) instead of \(result.hex)",
+            file: file,
+            line: line
+        )
+    }
+
+    /// Verifies if the Stack Pointer is correctly set
+    /// - sp: Stack Pointer
+    /// - memory: program memory
+    func XCTStackPointer(sp: Byte,
+                         offset: Byte = 1,
+                         in memory: Memory,
+                         value: Byte,
+                         file: StaticString = #filePath,
+                         line: UInt = #line) {
+        let sp = (Word(sp) | 0x0100) + Word(offset)
+        XCTAssertEqual(
+            memory[sp],
+            value,
+            "Stack Pointer is incorrectly set \(memory[sp].hex) instead of \(value).hex",
             file: file,
             line: line
         )

@@ -26,10 +26,6 @@ public extension CPU {
                 if isCrossed {
                     totalCycles += 1
                 }
-
-                // move program counter
-                moveProgramCounter(size)
-
             } catch let error as ExecutorError {
                 switch error {
                 case .undefinedInstruction(let byte):
@@ -180,6 +176,34 @@ extension CPU {
                 for: mode)
             memory[address] = byte
         }
+    }
 
+    mutating func push(
+        byte: Byte,
+        to memory: inout Memory
+    ) throws {
+        let firstPage = 0x0100 | Word(SP)
+        memory[firstPage] = byte
+        SP -= 1
+    }
+
+    mutating func pull(
+        from memory: inout Memory
+    ) throws -> Byte {
+        SP += 1
+        let firstPage = 0x0100 | Word(SP)
+        return memory[firstPage]
+    }
+
+    mutating func pull(
+        from memory: inout Memory
+    ) throws -> Word {
+        SP += 1
+        let firstPage = 0x0100 | Word(SP)
+        let word = !isLittleEndian
+        ? Word(memory[firstPage]) | (Word(memory[firstPage + 1]) << 8)
+        : (Word(memory[firstPage]) << 8) | Word(memory[firstPage + 1])
+        SP += 1
+        return word
     }
 }

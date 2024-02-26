@@ -2,7 +2,7 @@ import XCTest
 
 @testable import cpu6502Core
 
-final class CPUExecuteNOPTests: XCTestCase {
+final class CPUExecutePHPTests: XCTestCase {
     private var cpu: CPU!
     private var memory: Memory!
 
@@ -21,17 +21,20 @@ final class CPUExecuteNOPTests: XCTestCase {
         memory = nil
     }
 
-    func test_NOP_IMPL() throws {
-        let opcode = CPU.Instruction.NOP_OPCODE.IMPL
+    func test_PHP_IMPL() throws {
+        let opcode = CPU.Instruction.PHP_OPCODE.IMPL
         memory[CPU.START_PC] = opcode.byte
 
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 3)
+        let result = initFlags.value | 0b00110000
 
-        XCTAssertEqual(cycles, 2)
+        XCTAssertEqual(cycles, 3)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
+        XCTStackPointer(sp: cpu.SP, in: memory, value: result)
+        XCTAssertEqual(cpu.SP, CPU.START_SP - 1);
         XCTFlagsUnchanged(from: initFlags, to: cpu.flags)
     }
 }

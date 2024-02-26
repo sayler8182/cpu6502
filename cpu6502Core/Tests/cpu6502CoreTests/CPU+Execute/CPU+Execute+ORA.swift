@@ -34,7 +34,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 2)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -53,7 +53,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b00000000)
         XCTAssertEqual(cycles, 2)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagFalse(flag: .N, in: cpu.flags)
         XCTFlagTrue(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -73,7 +73,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 3)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -94,7 +94,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 4)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -115,7 +115,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 4)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -136,7 +136,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 4)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -158,7 +158,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 4)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -180,7 +180,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 5)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -202,7 +202,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 4)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -224,7 +224,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 5)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -247,7 +247,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 6)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -270,7 +270,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 5)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)
@@ -293,7 +293,7 @@ final class CPUExecuteORATests: XCTestCase {
 
         XCTAssertEqual(cpu.registers.A, 0b10110110)
         XCTAssertEqual(cycles, 6)
-        XCTProgramCounter(cpu.PC, opcode.size)
+        XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .N, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.N, .Z], from: initFlags, to: cpu.flags)

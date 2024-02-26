@@ -1,0 +1,26 @@
+{
+  "configurations" : [
+    {
+      "id" : "3AB73B5C-5DC7-4363-9281-2658E17A42A6",
+      "name" : "Single",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "maximumTestRepetitions" : 20,
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "cpu6502CoreTests",
+        "name" : "cpu6502CoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

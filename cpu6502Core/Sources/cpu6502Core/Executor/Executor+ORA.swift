@@ -19,6 +19,7 @@ extension Executor {
 
         cpu.flags.setZero(cpu.registers.A)
         cpu.flags.setNegative(cpu.registers.A)
+        cpu.moveProgramCounter(opcode.size)
         return (opcode.size, opcode.cycles, isCrossed)
     }
 }

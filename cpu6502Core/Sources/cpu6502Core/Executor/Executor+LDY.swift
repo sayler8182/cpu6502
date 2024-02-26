@@ -1,5 +1,5 @@
 extension Executor {
-    /// Executes LDY instruction
+    /// Load Y register
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
     func execute(
@@ -19,6 +19,7 @@ extension Executor {
 
         cpu.flags.setZero(cpu.registers.Y)
         cpu.flags.setNegative(cpu.registers.Y)
+        cpu.moveProgramCounter(opcode.size)
         return (opcode.size, opcode.cycles, isCrossed)
     }
 }

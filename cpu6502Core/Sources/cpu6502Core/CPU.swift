@@ -19,6 +19,8 @@ enum CPUError: Error, CustomDebugStringConvertible {
 
 public struct CPU {
     public static let START_PC: Word = 0xFFFC
+    public static let START_SP: Byte = 0xFF
+    public static let START_SP_FIRST_PAGE: Word = 0x01FF
 
     public struct Registers {
         public var A: Byte
@@ -42,7 +44,7 @@ public struct CPU {
 
     public init() {
         PC = CPU.START_PC
-        SP = 0xFF
+        SP = CPU.START_SP
         flags = StatusFlags(0x00)
         registers = Registers(
             A: 0x00,
@@ -53,7 +55,7 @@ public struct CPU {
 
     mutating func reset() {
         PC = CPU.START_PC
-        SP = 0xFF
+        SP = CPU.START_SP
         flags = StatusFlags(0x00)
         registers = Registers(
             A: 0x00,

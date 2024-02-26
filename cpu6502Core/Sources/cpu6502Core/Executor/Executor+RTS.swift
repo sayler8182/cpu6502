@@ -1,14 +1,15 @@
 extension Executor {
-    /// Do nothing
+    /// Return from Subroutine
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
     func execute(
         cpu: inout CPU,
         memory: inout Memory,
-        opcode: CPU.Instruction.NOP_OPCODE
+        opcode: CPU.Instruction.RTS_OPCODE
     ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
-        let isCrossed = false
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, isCrossed)
+        let word: Word = try cpu.pull(from: &memory)
+        cpu.PC = word + 1
+
+        return (opcode.size, opcode.cycles, false)
     }
 }
