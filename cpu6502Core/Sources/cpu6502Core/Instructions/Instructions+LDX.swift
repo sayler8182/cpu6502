@@ -1,22 +1,18 @@
 extension CPU.Instruction {
+    /// Load X register
     public enum LDX_OPCODE: Byte {
-        /// Load value into the X register
         /// 2B, 2C
         case IM = 0xA2
 
-        /// Load X register from address from ZeroPage
         /// 2B, 3C
         case ZP = 0xA6
 
-        /// Load X register from address from ZeroPage and adding the current value of the Y register to it.
         /// 2B, 4C
         case ZPY = 0xB6
 
-        /// Load X register from address
-        /// 2B, 4C
+        /// 3B, 4C
         case ABS = 0xAE
 
-        /// Load X register from address and adding the current value of the Y register to it.
         /// 3B, 4C (+1 if page crossed)
         case ABSY = 0xBE
 
@@ -39,8 +35,18 @@ extension CPU.Instruction {
             case .IM: return 2
             case .ZP: return 2
             case .ZPY: return 2
-            case .ABS: return 2
+            case .ABS: return 3
             case .ABSY: return 3
+            }
+        }
+
+        var cycles: Cycles {
+            switch self {
+            case .IM: return 2
+            case .ZP: return 3
+            case .ZPY: return 4
+            case .ABS: return 4
+            case .ABSY: return 4
             }
         }
 

@@ -16,9 +16,11 @@ internal struct Executor {
     /// Executes program in memory
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
-    func execute(cpu: inout CPU,
-                 memory: inout Memory,
-                 instruction: CPU.Instruction) throws -> Cycles {
+    func execute(
+        cpu: inout CPU,
+        memory: inout Memory,
+        instruction: CPU.Instruction
+    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
         switch instruction {
         case .LDA(let opcode):
             try execute(
@@ -31,6 +33,21 @@ internal struct Executor {
                 memory: &memory,
                 opcode: opcode)
         case .LDY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .LSR(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .NOP(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .ORA(let opcode):
             try execute(
                 cpu: &cpu,
                 memory: &memory,

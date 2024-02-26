@@ -1,22 +1,22 @@
 extension CPU.Instruction {
-    /// Load value into the accumulator
-    public enum LDA_OPCODE: Byte {
+    /// Logical Inclusive OR
+    public enum ORA_OPCODE: Byte {
         /// 2B, 2C
-        case IM = 0xA9
+        case IM = 0x09
         /// 2B, 3C
-        case ZP = 0xA5
+        case ZP = 0x05
         /// 2B, 4C
-        case ZPX = 0xB5
+        case ZPX = 0x15
         /// 3B, 4C
-        case ABS = 0xAD
+        case ABS = 0x0D
         /// 3B, 4C (+1 if page crossed)
-        case ABSX = 0xBD
+        case ABSX = 0x1D
         /// 3B, 4C (+1 if page crossed)
-        case ABSY = 0xB9
+        case ABSY = 0x19
         /// 2B, 6C
-        case INDX = 0xA1
+        case INDX = 0x01
         /// 2B, 5C (+1 if page crossed)
-        case INDY = 0xB1
+        case INDY = 0x11
 
         var byte: Byte {
             rawValue
@@ -40,7 +40,7 @@ extension CPU.Instruction {
             case .IM: return 2
             case .ZP: return 2
             case .ZPX: return 2
-            case .ABS: return 3
+            case .ABS: return 2
             case .ABSX: return 3
             case .ABSY: return 3
             case .INDX: return 2

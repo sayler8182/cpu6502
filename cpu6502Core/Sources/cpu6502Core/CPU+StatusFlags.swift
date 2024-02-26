@@ -109,8 +109,11 @@ extension CPU {
 }
 
 internal extension CPU.StatusFlags {
-    mutating func setZeroAndNegative(_ value: Byte) {
-        self[.Z] = value == 0
+    mutating func setNegative(_ value: Byte) {
         self[.N] = (value & (1 << Flag.N.rawValue)) != 0
+    }
+
+    mutating func setZero(_ value: Byte) {
+        self[.Z] = value == 0
     }
 }

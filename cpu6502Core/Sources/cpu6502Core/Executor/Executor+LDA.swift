@@ -2,19 +2,23 @@ extension Executor {
     /// Executes LDA instruction
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
-    func execute(cpu: inout CPU,
-                 memory: inout Memory,
-                 opcode: CPU.Instruction.LDA_OPCODE) throws -> Cycles {
+    func execute(
+        cpu: inout CPU,
+        memory: inout Memory,
+        opcode: CPU.Instruction.LDA_OPCODE
+    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
         let addressingMode = cpu.addressingMode(
             from: opcode.addressingMode,
             memory: memory,
             size: opcode.size)
-        let (data, cycles) = try cpu.read(
+        let (data, isCrossed) = try cpu.read(
             from: memory,
             for: addressingMode)
+
         cpu.registers.A = data
-        cpu.flags.setZeroAndNegative(cpu.registers.A)
-        cpu.moveProgramCounter(opcode.size)
-        return cycles
+
+        cpu.flags.setZero(cpu.registers.A)
+        cpu.flags.setNegative(cpu.registers.A)
+        return (opcode.size, opcode.cycles, isCrossed)
     }
 }

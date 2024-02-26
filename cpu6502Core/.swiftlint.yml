@@ -5,6 +5,7 @@ disabled_rules:
   - line_length
   - function_body_length
   - cyclomatic_complexity
+  - large_tuple
 
 included: 
   - Sources

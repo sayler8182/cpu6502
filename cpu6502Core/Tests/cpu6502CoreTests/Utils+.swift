@@ -27,3 +27,13 @@ extension CPU.StatusFlags {
         CPU.StatusFlags(.random)
     }
 }
+
+extension CPU.Registers {
+    static var random: CPU.Registers {
+        CPU.Registers(
+            A: .random,
+            X: .random,
+            Y: .random
+        )
+    }
+}

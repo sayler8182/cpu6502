@@ -2,19 +2,23 @@ extension Executor {
     /// Executes LDY instruction
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
-    func execute(cpu: inout CPU,
-                 memory: inout Memory,
-                 opcode: CPU.Instruction.LDY_OPCODE) throws -> Cycles {
+    func execute(
+        cpu: inout CPU,
+        memory: inout Memory,
+        opcode: CPU.Instruction.LDY_OPCODE
+    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
         let addressingMode = cpu.addressingMode(
             from: opcode.addressingMode,
             memory: memory,
             size: opcode.size)
-        let (data, cycles) = try cpu.read(
+        let (data, isCrossed) = try cpu.read(
             from: memory,
             for: addressingMode)
+
         cpu.registers.Y = data
-        cpu.flags.setZeroAndNegative(cpu.registers.Y)
-        cpu.moveProgramCounter(opcode.size)
-        return cycles
+
+        cpu.flags.setZero(cpu.registers.Y)
+        cpu.flags.setNegative(cpu.registers.Y)
+        return (opcode.size, opcode.cycles, isCrossed)
     }
 }
