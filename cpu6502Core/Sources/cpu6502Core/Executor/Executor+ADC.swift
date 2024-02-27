@@ -1,11 +1,11 @@
 extension Executor {
-    /// Rotate Right
+    /// Add with Carry
     /// - Throws: ExecutorError
     /// - Returns: Spend cycles
     func execute(
         cpu: inout CPU,
         memory: inout Memory,
-        opcode: CPU.Instruction.ROR_OPCODE
+        opcode: CPU.Instruction.ADC_OPCODE
     ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
         let addressingMode = cpu.addressingMode(
             from: opcode.addressingMode,
@@ -15,16 +15,17 @@ extension Executor {
             from: memory,
             for: addressingMode)
 
-        let c = cpu.flags.value & CPU.StatusFlags.Flag.C.value
-        var result = data >> 1
-        result = result | (c << 7)
-        try cpu.write(
-            byte: result,
-            to: &memory,
-            for: addressingMode)
+        let cBit: Byte = cpu.flags.C ? 0b1 : 0b0
+        assert(!cpu.flags.D, "Decimal mode not handled" )
 
-        cpu.flags.C = (data & 0b00000001) != 0
+        let base = cpu.registers.A
+        let resultWord = Word(base) + Word(data) + Word(cBit)
+        let result = Byte(resultWord & 0xFF)
+        cpu.registers.A = result
+
+        cpu.flags.C = (resultWord & 0xFF00) != 0
         cpu.flags.setZero(result)
+        cpu.flags.V = ((base ^ data) & (base ^ result) & 0x80) > 0
         cpu.flags.setNegative(result)
         cpu.moveProgramCounter(opcode.size)
         return (opcode.size, opcode.cycles, isCrossed)

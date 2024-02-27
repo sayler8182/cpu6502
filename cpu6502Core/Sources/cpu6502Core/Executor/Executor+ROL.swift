@@ -26,7 +26,6 @@ extension Executor {
         cpu.flags.C = (data & 0b10000000) != 0
         cpu.flags.setZero(result)
         cpu.flags.setNegative(result)
-
         cpu.moveProgramCounter(opcode.size)
         return (opcode.size, opcode.cycles, isCrossed)
     }

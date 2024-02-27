@@ -13,7 +13,7 @@ public extension CPU {
             let instruction: Byte = memory[PC]
 
             do {
-                let (size, cycles, isCrossed) = try executor.execute(
+                let (_, cycles, isCrossed) = try executor.execute(
                     cpu: &self,
                     memory: &memory,
                     instruction: Instruction(byte: instruction)

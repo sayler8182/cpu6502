@@ -1,8 +1,8 @@
 extension CPU.Instruction {
-    /// Return from Subroutine
-    public enum RTS_OPCODE: Byte {
-        /// 1B, 6C
-        case IMPL = 0x60
+    /// Set Interrupt Disable
+    public enum SEI_OPCODE: Byte {
+        /// 1B, 2C
+        case IMPL = 0x78
 
         var byte: Byte {
             rawValue
@@ -22,7 +22,7 @@ extension CPU.Instruction {
 
         var cycles: Cycles {
             switch self {
-            case .IMPL: return 6
+            case .IMPL: return 2
             }
         }
 

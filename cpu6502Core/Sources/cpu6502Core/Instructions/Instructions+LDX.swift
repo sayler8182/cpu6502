@@ -3,16 +3,12 @@ extension CPU.Instruction {
     public enum LDX_OPCODE: Byte {
         /// 2B, 2C
         case IM = 0xA2
-
         /// 2B, 3C
         case ZP = 0xA6
-
         /// 2B, 4C
         case ZPY = 0xB6
-
         /// 3B, 4C
         case ABS = 0xAE
-
         /// 3B, 4C (+1 if page crossed)
         case ABSY = 0xBE
 

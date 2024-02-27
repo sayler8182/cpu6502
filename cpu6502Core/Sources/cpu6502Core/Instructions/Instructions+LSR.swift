@@ -3,16 +3,12 @@ extension CPU.Instruction {
     public enum LSR_OPCODE: Byte {
         /// 1B, 2C
         case ACC = 0x4A
-
         /// 2B, 5C
         case ZP = 0x46
-
         /// 2B, 6C
         case ZPX = 0x56
-
         /// 3B, 6C
         case ABS = 0x4E
-
         /// 3B, 7C
         case ABSX = 0x5E
 

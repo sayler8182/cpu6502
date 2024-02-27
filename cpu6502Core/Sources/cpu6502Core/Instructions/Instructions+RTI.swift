@@ -10,7 +10,7 @@ extension CPU.Instruction {
 
         var addressingMode: AddressingMode {
             switch self {
-            case .IMPL: return .implicit
+            case .IMPL: return .implied
             }
         }
 

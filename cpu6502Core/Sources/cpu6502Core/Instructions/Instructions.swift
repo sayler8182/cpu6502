@@ -1,7 +1,7 @@
 extension CPU {
     public enum Instruction {
         public enum AddressingMode {
-            case implicit
+            case implied
             case accumulator
             case immediate
             case zeroPage
@@ -15,6 +15,15 @@ extension CPU {
             case indirectX
             case indirectY
         }
+
+        /// ADC - Add with Carry
+        /// A,Z,C,N = A+M+C
+        /// This instruction adds the contents of a memory location to the accumulator together with the carry bit. If overflow occurs the carry bit is set, this enables multiple byte addition to be performed.
+        /// - C - Carry Flag - Set if overflow in bit 7
+        /// - Z - Zero Flag - Set if A = 0
+        /// - V - Overflow - Set if sign bit is incorrect
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case ADC(ADC_OPCODE)
 
         /// LDA - Load Accumulator
         /// A,Z,N = M
@@ -100,18 +109,63 @@ extension CPU {
         /// The RTS instruction is used at the end of a subroutine to return to the calling routine. It pulls the program counter (minus one) from the stack.
         case RTS(RTS_OPCODE)
 
+        /// SBC - Subtract with Carry
+        /// A,Z,C,N = A-M-(1-C)
+        /// This instruction subtracts the contents of a memory location to the accumulator together with the not of the carry bit. If overflow occurs the carry bit is clear, this enables multiple byte subtraction to be performed.
+        /// - C - Carry Flag - Clear if overflow in bit 7
+        /// - Z - Zero Flag - Set if A = 0
+        /// - V - Overflow - Set if sign bit is incorrect
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case SBC(SBC_OPCODE)
+
+        /// SEC - Set Carry Flag
+        /// C = 1
+        /// - C - Carry Flag - Set to 1
+        case SEC(SEC_OPCODE)
+
+        /// SEC - Set Decimal Flag
+        /// D = 1
+        /// - D - Decimal Flag - Set to 1
+        case SED(SED_OPCODE)
+
+        /// SEI - Set Interrupt Disable
+        /// I = 1
+        /// - I - Interrupt disable - Set to 1
+        case SEI(SEI_OPCODE)
+
+        /// STA - Store Accumulator
+        /// M = A
+        /// Stores the contents of the accumulator into memory.
+        case STA(STA_OPCODE)
+
+        /// STX - Store X Register
+        /// M = X
+        /// Stores the contents of the X register into memory.
+        case STX(STX_OPCODE)
+
+        /// STY - Store Y Register
+        /// M = Y
+        /// Stores the contents of the Y register into memory.
+        case STY(STY_OPCODE)
+
+        /// TAX - Store Y Register
+        /// X = A
+        /// Copies the current contents of the accumulator into the X register and sets the zero and negative flags as appropriate.
+        /// - Z - Zero Flag - Set if A = 0
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case TAX(TAX_OPCODE)
+
         /// Indefined instruction
         case undefined(Byte)
 
         init(byte: Byte) {
             switch byte {
-                /// any of LDA_OPCODE
+            case 0x69, 0x65, 0x75, 0x6D, 0x7D, 0x79, 0x61, 0x71:
+                self = .ADC(ADC_OPCODE(byte: byte))
             case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
                 self = .LDA(LDA_OPCODE(byte: byte))
-                /// any of LDX_OPCODE
             case 0xA2, 0xA6, 0xB6, 0xAE, 0xBE:
                 self = .LDX(LDX_OPCODE(byte: byte))
-                /// any of LDY_OPCODE
             case 0xA0, 0xA4, 0xB4, 0xAC, 0xBC:
                 self = .LDY(LDY_OPCODE(byte: byte))
             case 0x4A, 0x46, 0x56, 0x4E, 0x5E:
@@ -136,6 +190,22 @@ extension CPU {
                 self = .RTI(RTI_OPCODE(byte: byte))
             case 0x60:
                 self = .RTS(RTS_OPCODE(byte: byte))
+            case 0xE9, 0xE5, 0xF5, 0xED, 0xFD, 0xF9, 0xE1, 0xF1:
+                self = .SBC(SBC_OPCODE(byte: byte))
+            case 0x38:
+                self = .SEC(SEC_OPCODE(byte: byte))
+            case 0xF8:
+                self = .SED(SED_OPCODE(byte: byte))
+            case 0x78:
+                self = .SEI(SEI_OPCODE(byte: byte))
+            case 0x85, 0x95, 0x8D, 0x9D, 0x99, 0x81, 0x91:
+                self = .STA(STA_OPCODE(byte: byte))
+            case 0x86, 0x96, 0x8E:
+                self = .STX(STX_OPCODE(byte: byte))
+            case 0x84, 0x94, 0x8C:
+                self = .STY(STY_OPCODE(byte: byte))
+            case 0xAA:
+                self = .TAX(TAX_OPCODE(byte: byte))
             default:
                 self = .undefined(byte)
             }

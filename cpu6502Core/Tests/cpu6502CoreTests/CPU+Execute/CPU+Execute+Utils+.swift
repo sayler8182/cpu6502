@@ -93,7 +93,7 @@ extension XCTestCase {
                       line: UInt = #line) {
         // the specific flag should not be set
         XCTAssertTrue(
-            ((flags.value & (1 << flag.rawValue)) >> flag.rawValue) == 0,
+            (flags.value & (1 << flag.rawValue)) == 0,
             "Flag \(flag) should be '0' instead of '1'",
             file: file,
             line: line
@@ -109,7 +109,7 @@ extension XCTestCase {
                      line: UInt = #line) {
         // the specific flag should be set
         XCTAssertTrue(
-            ((flags.value & (1 << flag.rawValue)) >> flag.rawValue) == 1,
+            (flags.value & (1 << flag.rawValue)) != 0,
             "Flag \(flag) should be '1' instead of '0'",
             file: file,
             line: line

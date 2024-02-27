@@ -1,16 +1,22 @@
 extension CPU.Instruction {
-    /// Load Y register
-    public enum LDY_OPCODE: Byte {
+    /// Add with Carry
+    public enum ADC_OPCODE: Byte {
         /// 2B, 2C
-        case IM = 0xA0
+        case IM = 0x69
         /// 2B, 3C
-        case ZP = 0xA4
+        case ZP = 0x65
         /// 2B, 4C
-        case ZPX = 0xB4
+        case ZPX = 0x75
         /// 3B, 4C
-        case ABS = 0xAC
+        case ABS = 0x6D
         /// 3B, 4C (+1 if page crossed)
-        case ABSX = 0xBC
+        case ABSX = 0x7D
+        /// 3B, 4C (+1 if page crossed)
+        case ABSY = 0x79
+        /// 2B, 6C
+        case INDX = 0x61
+        /// 2B, 5C (+1 if page crossed)
+        case INDY = 0x71
 
         var byte: Byte {
             rawValue
@@ -23,6 +29,9 @@ extension CPU.Instruction {
             case .ZPX: return .zeroPageX
             case .ABS: return .absolute
             case .ABSX: return .absoluteX
+            case .ABSY: return .absoluteY
+            case .INDX: return .indirectX
+            case .INDY: return .indirectY
             }
         }
 
@@ -33,6 +42,9 @@ extension CPU.Instruction {
             case .ZPX: return 2
             case .ABS: return 3
             case .ABSX: return 3
+            case .ABSY: return 3
+            case .INDX: return 2
+            case .INDY: return 2
             }
         }
 
@@ -43,6 +55,9 @@ extension CPU.Instruction {
             case .ZPX: return 4
             case .ABS: return 4
             case .ABSX: return 4
+            case .ABSY: return 4
+            case .INDX: return 6
+            case .INDY: return 5
             }
         }
 

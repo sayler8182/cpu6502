@@ -1,7 +1,7 @@
 public extension CPU {
     enum AddressingMode {
         case accumulator
-        case implicit
+        case implied
         case immediate(Byte)
         case zeroPage(Byte)
         case zeroPageX(Byte)
@@ -19,8 +19,8 @@ public extension CPU {
                         memory: Memory,
                         size: Byte) -> AddressingMode {
         switch mode {
-        case .implicit:
-            return AddressingMode.implicit
+        case .implied:
+            return AddressingMode.implied
         case .accumulator:
             return AddressingMode.accumulator
         case .immediate:

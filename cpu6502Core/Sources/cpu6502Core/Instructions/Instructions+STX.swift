@@ -1,16 +1,12 @@
 extension CPU.Instruction {
-    /// Load Y register
-    public enum LDY_OPCODE: Byte {
-        /// 2B, 2C
-        case IM = 0xA0
+    /// Store X Register
+    public enum STX_OPCODE: Byte {
         /// 2B, 3C
-        case ZP = 0xA4
+        case ZP = 0x86
         /// 2B, 4C
-        case ZPX = 0xB4
+        case ZPY = 0x96
         /// 3B, 4C
-        case ABS = 0xAC
-        /// 3B, 4C (+1 if page crossed)
-        case ABSX = 0xBC
+        case ABS = 0x8E
 
         var byte: Byte {
             rawValue
@@ -18,31 +14,25 @@ extension CPU.Instruction {
 
         var addressingMode: AddressingMode {
             switch self {
-            case .IM: return .immediate
             case .ZP: return .zeroPage
-            case .ZPX: return .zeroPageX
+            case .ZPY: return .zeroPageY
             case .ABS: return .absolute
-            case .ABSX: return .absoluteX
             }
         }
 
         var size: Byte {
             switch self {
-            case .IM: return 2
             case .ZP: return 2
-            case .ZPX: return 2
+            case .ZPY: return 2
             case .ABS: return 3
-            case .ABSX: return 3
             }
         }
 
         var cycles: Cycles {
             switch self {
-            case .IM: return 2
             case .ZP: return 3
-            case .ZPX: return 4
+            case .ZPY: return 4
             case .ABS: return 4
-            case .ABSX: return 4
             }
         }
 

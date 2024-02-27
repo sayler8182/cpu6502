@@ -22,6 +22,11 @@ internal struct Executor {
         instruction: CPU.Instruction
     ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
         switch instruction {
+        case .ADC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
         case .LDA(let opcode):
             try execute(
                 cpu: &cpu,
@@ -88,6 +93,46 @@ internal struct Executor {
                 memory: &memory,
                 opcode: opcode)
         case .RTS(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .SBC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .SEC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .SED(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .SEI(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .STA(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .STX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .STY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TAX(let opcode):
             try execute(
                 cpu: &cpu,
                 memory: &memory,
