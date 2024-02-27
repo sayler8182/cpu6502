@@ -25,6 +25,21 @@ extension CPU {
         /// - N - Negative Flag - Set if bit 7 of A is set
         case ADC(ADC_OPCODE)
 
+        /// AND - Logical AND
+        /// A,Z,N = A&M
+        /// A logical AND is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
+        /// - Z - Zero Flag - Set if A = 0
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case AND(AND_OPCODE)
+
+        /// ASL - Arithmetic Shift Left
+        /// A,Z,C,N = M*2 or M,Z,C,N = M*2
+        /// This operation shifts all the bits of the accumulator or memory contents one bit left. Bit 0 is set to 0 and bit 7 is placed in the carry flag. The effect of this operation is to multiply the memory contents by 2 (ignoring 2's complement considerations), setting the carry if the result will not fit in 8 bits.
+        /// - C - Cerry Flag - Set to contents of old bit 7
+        /// - Z - Zero Flag - Set if A = 0
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case ASL(ASL_OPCODE)
+
         /// LDA - Load Accumulator
         /// A,Z,N = M
         /// Loads a byte of memory into the accumulator setting the zero and negative flags as appropriate.
@@ -49,7 +64,7 @@ extension CPU {
         /// LSR - Logical Shift Right
         /// A,C,Z,N = A/2 or M,C,Z,N = M/2
         /// Each of the bits in A or M is shift one place to the right. The bit that was in bit 0 is shifted into the carry flag. Bit 7 is set to zero.
-        ///  - C - Cerry Flag - Set if last bit was set to 1
+        ///  - C - Cerry Flag - Set to contents of old bit 0
         ///  - Z - Zero Flag - Set if A = 0
         ///  - N - Negative Flag - Set if bit 7 of A is set
         case LSR(LSR_OPCODE)
@@ -148,12 +163,45 @@ extension CPU {
         /// Stores the contents of the Y register into memory.
         case STY(STY_OPCODE)
 
-        /// TAX - Store Y Register
+        /// TAX - Store X Register
         /// X = A
         /// Copies the current contents of the accumulator into the X register and sets the zero and negative flags as appropriate.
         /// - Z - Zero Flag - Set if A = 0
         /// - N - Negative Flag - Set if bit 7 of A is set
         case TAX(TAX_OPCODE)
+
+        /// TAY - Store Y Register
+        /// Y = A
+        /// Copies the current contents of the accumulator into the Y register and sets the zero and negative flags as appropriate.
+        /// - Z - Zero Flag - Set if A = 0
+        /// - N - Negative Flag - Set if bit 7 of A is set
+        case TAY(TAY_OPCODE)
+
+        /// TSX - Transfer Stack Pointer to X
+        /// X = S
+        /// Copies the current contents of the stack register into the X register and sets the zero and negative flags as appropriate..
+        /// - Z - Zero Flag - Set if S = 0
+        /// - N - Negative Flag - Set if bit 7 of S is set
+        case TSX(TSX_OPCODE)
+
+        /// TXA - Transfer X to Accumulator
+        /// A = X
+        /// Copies the current contents of the X register into the accumulator and sets the zero and negative flags as appropriate.
+        /// - Z - Zero Flag - Set if X = 0
+        /// - N - Negative Flag - Set if bit 7 of X is set
+        case TXA(TXA_OPCODE)
+
+        /// TXS - Transfer X to Stack Pointer
+        /// SP = X
+        /// Copies the current contents of the X register into the stack register.
+        case TXS(TXS_OPCODE)
+
+        /// TYA - Transfer Y to Accumulator
+        /// A = Y
+        /// Copies the current contents of the Y register into the accumulator and sets the zero and negative flags as appropriate.
+        /// - Z - Zero Flag - Set if Y = 0
+        /// - N - Negative Flag - Set if bit 7 of Y is set
+        case TYA(TYA_OPCODE)
 
         /// Indefined instruction
         case undefined(Byte)
@@ -162,6 +210,10 @@ extension CPU {
             switch byte {
             case 0x69, 0x65, 0x75, 0x6D, 0x7D, 0x79, 0x61, 0x71:
                 self = .ADC(ADC_OPCODE(byte: byte))
+            case 0x29, 0x25, 0x35, 0x2D, 0x3D, 0x39, 0x21, 0x31:
+                self = .AND(AND_OPCODE(byte: byte))
+            case 0x0A, 0x06, 0x16, 0x0E, 0x1E:
+                self = .ASL(ASL_OPCODE(byte: byte))
             case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
                 self = .LDA(LDA_OPCODE(byte: byte))
             case 0xA2, 0xA6, 0xB6, 0xAE, 0xBE:
@@ -206,6 +258,16 @@ extension CPU {
                 self = .STY(STY_OPCODE(byte: byte))
             case 0xAA:
                 self = .TAX(TAX_OPCODE(byte: byte))
+            case 0xA8:
+                self = .TAY(TAY_OPCODE(byte: byte))
+            case 0xBA:
+                self = .TSX(TSX_OPCODE(byte: byte))
+            case 0x8A:
+                self = .TXA(TXA_OPCODE(byte: byte))
+            case 0x9A:
+                self = .TXS(TXS_OPCODE(byte: byte))
+            case 0x98:
+                self = .TYA(TYA_OPCODE(byte: byte))
             default:
                 self = .undefined(byte)
             }

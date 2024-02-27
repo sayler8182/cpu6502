@@ -27,6 +27,16 @@ internal struct Executor {
                 cpu: &cpu,
                 memory: &memory,
                 opcode: opcode)
+        case .AND(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .ASL(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
         case .LDA(let opcode):
             try execute(
                 cpu: &cpu,
@@ -133,6 +143,31 @@ internal struct Executor {
                 memory: &memory,
                 opcode: opcode)
         case .TAX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TAY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TSX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TXA(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TXS(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .TYA(let opcode):
             try execute(
                 cpu: &cpu,
                 memory: &memory,
