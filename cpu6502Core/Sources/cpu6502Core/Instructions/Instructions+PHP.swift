@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Push Processor Status
-    public enum PHP_OPCODE: Byte {
+    public enum PHP_OPCODE: Byte, OPCODE {
         /// 1B, 3C
         case IMPL = 0x08
 

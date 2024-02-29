@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Do nothing
-    public enum NOP_OPCODE: Byte {
+    public enum NOP_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0xEA
 

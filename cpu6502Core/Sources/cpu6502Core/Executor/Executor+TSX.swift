@@ -6,12 +6,12 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.TSX_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         cpu.registers.X = cpu.SP
 
-        cpu.flags.setZero(cpu.registers.X)
-        cpu.flags.setNegative(cpu.registers.X)
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, false)
+        cpu.flags.Z = cpu.registers.X == 0
+        cpu.flags.N = (cpu.registers.X & CPU.StatusFlags.Flag.N.value) != 0
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

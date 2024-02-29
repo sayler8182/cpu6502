@@ -104,28 +104,18 @@ extension CPU {
         }
 
         public subscript(_ flag: Flag) -> Byte {
-            value & (1 << flag.rawValue)
+            value & flag.value
         }
 
-        public subscript(_ flag: Flag) -> Bool {
+        private subscript(_ flag: Flag) -> Bool {
             get { (value & (1 << flag.rawValue)) != 0 }
             set {
                 if newValue {
-                    value = value | (1 << flag.rawValue)
+                    value = value | flag.value
                 } else {
-                    value = value & ~(1 << flag.rawValue)
+                    value = value & ~flag.value
                 }
             }
         }
-    }
-}
-
-internal extension CPU.StatusFlags {
-    mutating func setNegative(_ value: Byte) {
-        self[.N] = (value & (1 << Flag.N.rawValue)) != 0
-    }
-
-    mutating func setZero(_ value: Byte) {
-        self[.Z] = value == 0
     }
 }

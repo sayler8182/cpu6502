@@ -30,7 +30,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0b01000011)
         XCTAssertEqual(cycles, 2)
@@ -50,7 +50,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0b10100011)
         XCTAssertEqual(cycles, 2)
@@ -71,7 +71,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 5)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x0042], 0b01000011)
         XCTAssertEqual(cycles, 5)
@@ -93,7 +93,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 6)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x0042 + 0x5], 0b01000011)
         XCTAssertEqual(cycles, 6)
@@ -115,7 +115,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x4480], 0b01000011)
         XCTAssertEqual(cycles, 6)
@@ -138,7 +138,7 @@ final class CPUExecuteRORTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x4480 + 0x5], 0b01000011)
         XCTAssertEqual(cycles, 7)

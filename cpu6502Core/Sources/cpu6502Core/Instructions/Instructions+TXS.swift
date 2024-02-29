@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Transfer X to Stack Pointer
-    public enum TXS_OPCODE: Byte {
+    public enum TXS_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0x9A
 

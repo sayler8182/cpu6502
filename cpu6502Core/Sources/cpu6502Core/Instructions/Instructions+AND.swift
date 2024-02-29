@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Logical AND
-    public enum AND_OPCODE: Byte {
+    public enum AND_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0x29
         /// 2B, 3C
@@ -40,7 +40,7 @@ extension CPU.Instruction {
             case .IM: return 2
             case .ZP: return 2
             case .ZPX: return 2
-            case .ABS: return 2
+            case .ABS: return 3
             case .ABSX: return 3
             case .ABSY: return 3
             case .INDX: return 2

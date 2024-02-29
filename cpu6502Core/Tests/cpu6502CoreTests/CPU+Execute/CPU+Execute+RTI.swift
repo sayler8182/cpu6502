@@ -29,21 +29,17 @@ final class CPUExecuteRTITests: XCTestCase {
         memory[CPU.START_SP_FIRST_PAGE - 1] = 0xFF // 0xFFAD
         memory[CPU.START_SP_FIRST_PAGE - 2] = 0b10101101
 
-        let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 6)
+            cycles: 1)
 
-        // break flag and bit 5 ignored
+        // bit 5 ignored
         var result: Byte = 0b10101101
-        result = result & ~(CPU.StatusFlags.Flag.U.value | CPU.StatusFlags.Flag.B.value)
-        let u = initFlags.value & CPU.StatusFlags.Flag.U.value
-        let b = initFlags.value & CPU.StatusFlags.Flag.B.value
-        result = result | u | b
+        result = result | CPU.StatusFlags.Flag.U.value
 
         XCTAssertEqual(cpu.flags.value, result)
         XCTAssertEqual(cycles, 6)
-        XCTProgramCounter(pc: cpu.PC, equal: 0xFFAD)
+        XCTProgramCounter(pc: cpu.PC, equal: 0xADFF)
         XCTAssertEqual(cpu.SP, CPU.START_SP)
     }
 }

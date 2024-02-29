@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Transfer Y to Accumulator
-    public enum TYA_OPCODE: Byte {
+    public enum TYA_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0x98
 

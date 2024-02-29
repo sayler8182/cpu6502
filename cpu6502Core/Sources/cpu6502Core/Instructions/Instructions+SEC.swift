@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Set Carry Flag
-    public enum SEC_OPCODE: Byte {
+    public enum SEC_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0x38
 

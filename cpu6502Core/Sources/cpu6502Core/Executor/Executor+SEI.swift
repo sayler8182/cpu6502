@@ -6,10 +6,10 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.SEI_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         cpu.flags.I = true
 
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, false)
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

@@ -1,11 +1,11 @@
 import Foundation
 
-enum CPUError: Error, CustomDebugStringConvertible {
+public enum CPUError: Error, CustomDebugStringConvertible {
     case undefinedInstruction(Byte)
     case unimplemented(Byte)
     case incorrectAddressingMode(CPU.AddressingMode)
 
-    var debugDescription: String {
+    public var debugDescription: String {
         switch self {
         case .undefinedInstruction(let byte):
             return String(format: "CPUError - undefined instruction: '0x%@'", String(byte, radix: 16).uppercased())
@@ -53,7 +53,7 @@ public struct CPU {
         )
     }
 
-    mutating func reset() {
+    mutating public func reset() {
         PC = CPU.START_PC
         SP = CPU.START_SP
         flags = StatusFlags(0x00)

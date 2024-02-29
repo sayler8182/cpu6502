@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Set Decimal Flag
-    public enum SED_OPCODE: Byte {
+    public enum SED_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0xF8
 

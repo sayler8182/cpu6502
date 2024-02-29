@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Arithmetic Shift Left
-    public enum ASL_OPCODE: Byte {
+    public enum ASL_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case ACC = 0x0A
         /// 2B, 5C

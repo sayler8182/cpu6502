@@ -33,7 +33,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0x60)
         XCTAssertEqual(cycles, 2)
@@ -56,14 +56,14 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagFalse(flag: .C, in: cpu.flags)
         XCTFlagTrue(flag: .N, in: cpu.flags)
-        XCTFlagFalse(flag: .V, in: cpu.flags)
+        XCTFlagTrue(flag: .V, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.C, .N, .Z, .V], from: initFlags, to: cpu.flags)
     }
@@ -79,14 +79,14 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xE0)
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagFalse(flag: .C, in: cpu.flags)
         XCTFlagTrue(flag: .N, in: cpu.flags)
-        XCTFlagTrue(flag: .V, in: cpu.flags)
+        XCTFlagFalse(flag: .V, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.C, .N, .Z, .V], from: initFlags, to: cpu.flags)
     }
@@ -102,7 +102,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0x20)
         XCTAssertEqual(cycles, 2)
@@ -125,7 +125,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xE0)
         XCTAssertEqual(cycles, 2)
@@ -148,14 +148,14 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0x20)
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .C, in: cpu.flags)
         XCTFlagFalse(flag: .N, in: cpu.flags)
-        XCTFlagTrue(flag: .V, in: cpu.flags)
+        XCTFlagFalse(flag: .V, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.C, .N, .Z, .V], from: initFlags, to: cpu.flags)
     }
@@ -171,14 +171,14 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0x60)
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)
         XCTFlagTrue(flag: .C, in: cpu.flags)
         XCTFlagFalse(flag: .N, in: cpu.flags)
-        XCTFlagFalse(flag: .V, in: cpu.flags)
+        XCTFlagTrue(flag: .V, in: cpu.flags)
         XCTFlagFalse(flag: .Z, in: cpu.flags)
         XCTFlagsUnchanged(skip: [.C, .N, .Z, .V], from: initFlags, to: cpu.flags)
     }
@@ -194,7 +194,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 2)
@@ -218,7 +218,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 3)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 3)
@@ -243,7 +243,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 4)
@@ -268,7 +268,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 4)
@@ -293,7 +293,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 4)
@@ -319,7 +319,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 4)
@@ -345,7 +345,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 5)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 5)
@@ -371,7 +371,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 4)
@@ -397,7 +397,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 5)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 5)
@@ -424,7 +424,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 6)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 6)
@@ -451,7 +451,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 5)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 5)
@@ -478,7 +478,7 @@ final class CPUExecuteADCTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 6)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0xA0)
         XCTAssertEqual(cycles, 6)

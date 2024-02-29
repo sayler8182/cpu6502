@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Set Interrupt Disable
-    public enum SEI_OPCODE: Byte {
+    public enum SEI_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case IMPL = 0x78
 

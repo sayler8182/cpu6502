@@ -29,7 +29,7 @@ final class CPUExecutePHATests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 3)
+            cycles: 1)
 
         XCTAssertEqual(cycles, 3)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)

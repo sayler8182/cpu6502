@@ -12,6 +12,8 @@ internal enum ExecutorError: Error, CustomDebugStringConvertible {
     }
 }
 
+internal typealias ExecutorResult = (size: Byte, cycles: Cycles, additionalCycles: Cycles)
+
 internal struct Executor {
     /// Executes program in memory
     /// - Throws: ExecutorError
@@ -20,7 +22,7 @@ internal struct Executor {
         cpu: inout CPU,
         memory: inout Memory,
         instruction: CPU.Instruction
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         switch instruction {
         case .ADC(let opcode):
             try execute(
@@ -33,6 +35,136 @@ internal struct Executor {
                 memory: &memory,
                 opcode: opcode)
         case .ASL(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BCC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BCS(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BEQ(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BIT(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BMI(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BNE(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BPL(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BRK(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BVC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .BVS(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CLC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CLD(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CLI(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CLV(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CMP(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CPX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .CPY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .DEC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .DEX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .DEY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .EOR(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .INC(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .INX(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .INY(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .JMP(let opcode):
+            try execute(
+                cpu: &cpu,
+                memory: &memory,
+                opcode: opcode)
+        case .JSR(let opcode):
             try execute(
                 cpu: &cpu,
                 memory: &memory,

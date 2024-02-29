@@ -1,5 +1,5 @@
-public extension CPU {
-    enum AddressingMode {
+extension CPU {
+    public enum AddressingMode {
         case accumulator
         case implied
         case immediate(Byte)
@@ -15,9 +15,9 @@ public extension CPU {
         case indirectY(Word)
     }
 
-    func addressingMode(from mode: Instruction.AddressingMode,
-                        memory: Memory,
-                        size: Byte) -> AddressingMode {
+    internal func addressingMode(from mode: Instruction.AddressingMode,
+                                 memory: Memory,
+                                 size: Byte) -> AddressingMode {
         switch mode {
         case .implied:
             return AddressingMode.implied

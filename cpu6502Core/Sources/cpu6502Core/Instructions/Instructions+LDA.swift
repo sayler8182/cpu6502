@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Load value into the accumulator
-    public enum LDA_OPCODE: Byte {
+    public enum LDA_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0xA9
         /// 2B, 3C

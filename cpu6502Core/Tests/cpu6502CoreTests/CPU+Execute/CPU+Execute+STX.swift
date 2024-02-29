@@ -31,7 +31,7 @@ final class CPUExecuteSTXTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 3)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x0042], 0xD0)
         XCTAssertEqual(cycles, 3)
@@ -50,7 +50,7 @@ final class CPUExecuteSTXTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x0042 + 0x5], 0xD0)
         XCTAssertEqual(cycles, 4)
@@ -69,7 +69,7 @@ final class CPUExecuteSTXTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(memory[0x4480], 0xD0)
         XCTAssertEqual(cycles, 4)

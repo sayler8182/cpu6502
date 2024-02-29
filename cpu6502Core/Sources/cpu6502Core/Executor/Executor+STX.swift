@@ -6,7 +6,7 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.STX_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         let addressingMode = cpu.addressingMode(
             from: opcode.addressingMode,
             memory: memory,
@@ -17,7 +17,7 @@ extension Executor {
             to: &memory,
             for: addressingMode)
 
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, false)
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

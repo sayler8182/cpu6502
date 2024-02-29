@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Processor Status
-    public enum PLP_OPCODE: Byte {
+    public enum PLP_OPCODE: Byte, OPCODE {
         /// 1B, 4C
         case IMPL = 0x28
 

@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Store X Register
-    public enum STX_OPCODE: Byte {
+    public enum STX_OPCODE: Byte, OPCODE {
         /// 2B, 3C
         case ZP = 0x86
         /// 2B, 4C

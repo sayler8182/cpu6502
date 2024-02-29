@@ -29,7 +29,7 @@ final class CPUExecuteTAXTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.X, 0xD0)
         XCTAssertEqual(cycles, 2)

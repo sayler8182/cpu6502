@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Load X register
-    public enum LDX_OPCODE: Byte {
+    public enum LDX_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0xA2
         /// 2B, 3C

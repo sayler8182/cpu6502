@@ -20,6 +20,9 @@ let package = Package(
             plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]),
         .testTarget(
             name: "cpu6502CoreTests",
-            dependencies: ["cpu6502Core"])
+            dependencies: ["cpu6502Core"],
+            resources: [
+                .process("Resources"),
+            ])
     ]
 )

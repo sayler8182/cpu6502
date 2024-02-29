@@ -6,10 +6,10 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.RTS_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         let word: Word = try cpu.pull(from: &memory)
         cpu.PC = word + 1
 
-        return (opcode.size, opcode.cycles, false)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

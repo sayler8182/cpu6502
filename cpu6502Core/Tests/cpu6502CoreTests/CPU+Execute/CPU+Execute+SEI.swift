@@ -28,7 +28,7 @@ final class CPUExecuteSEITests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 2)
+            cycles: 1)
 
         XCTAssertEqual(cycles, 2)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)

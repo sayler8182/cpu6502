@@ -1,19 +1,44 @@
+protocol OPCODE: CaseIterable {
+    static var info: String { get }
+
+    var byte: Byte { get }
+    var addressingMode: CPU.Instruction.AddressingMode { get }
+    var size: Byte { get }
+    var cycles: Cycles { get }
+}
+
+extension OPCODE {
+    static var info: String {
+        var result: String = ""
+        result += "\(String("\(self)".prefix(3)))"
+        for element in allCases {
+            result += "\n- "
+            result += "0x" + String(element.byte, radix: 16)
+            result += " (" + element.addressingMode.rawValue
+            result += ", " + String(element.size) + "B"
+            result += ", " + String(element.cycles) + "C"
+            result += ")"
+        }
+        return result
+    }
+}
+
 extension CPU {
     public enum Instruction {
-        public enum AddressingMode {
-            case implied
-            case accumulator
-            case immediate
-            case zeroPage
-            case zeroPageX
-            case zeroPageY
-            case relative
-            case absolute
-            case absoluteX
-            case absoluteY
-            case indirect
-            case indirectX
-            case indirectY
+        public enum AddressingMode: String {
+            case implied = "IMPL"
+            case accumulator = "ACC"
+            case immediate = "IM"
+            case zeroPage = "ZP"
+            case zeroPageX = "ZPX"
+            case zeroPageY = "ZPY"
+            case relative = "REL"
+            case absolute = "ABS"
+            case absoluteX = "ABSX"
+            case absoluteY = "ABSY"
+            case indirect = "IND"
+            case indirectX = "INDX"
+            case indirectY = "INDY"
         }
 
         /// ADC - Add with Carry
@@ -35,10 +60,160 @@ extension CPU {
         /// ASL - Arithmetic Shift Left
         /// A,Z,C,N = M*2 or M,Z,C,N = M*2
         /// This operation shifts all the bits of the accumulator or memory contents one bit left. Bit 0 is set to 0 and bit 7 is placed in the carry flag. The effect of this operation is to multiply the memory contents by 2 (ignoring 2's complement considerations), setting the carry if the result will not fit in 8 bits.
-        /// - C - Cerry Flag - Set to contents of old bit 7
+        /// - C - Carry Flag - Set to contents of old bit 7
         /// - Z - Zero Flag - Set if A = 0
         /// - N - Negative Flag - Set if bit 7 of A is set
         case ASL(ASL_OPCODE)
+
+        /// BCC - Branch if Carry Clear
+        /// If the carry flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        case BCC(BCC_OPCODE)
+
+        /// BCS - Branch if Carry Set
+        /// If the carry flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        case BCS(BCS_OPCODE)
+
+        /// BEQ - Branch if Equal
+        /// If the zero flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        case BEQ(BEQ_OPCODE)
+
+        /// BIT - Bit Test
+        /// A & M, N = M7, V = M6
+        /// This instructions is used to test if one or more bits are set in a target memory location. The mask pattern in A is ANDed with the value in memory to set or clear the zero flag, but the result is not kept. Bits 7 and 6 of the value from memory are copied into the N and V flags.
+        /// - Z - Zero Flag - Set if result = 0
+        /// - N - Negative Flag - Set if bit 7 of result is set
+        /// - V - Overflow - Set if bit 6 of result is set
+        case BIT(BIT_OPCODE)
+
+        /// BMI - Branch if Minus
+        /// If the negative flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        case BMI(BMI_OPCODE)
+
+        /// BNE - Branch if Not Equal
+        /// If the zero flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        case BNE(BNE_OPCODE)
+
+        /// BPL - Branch if Positive
+        /// If the negative flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        case BPL(BPL_OPCODE)
+
+        /// BRK - Force Interrupt
+        /// The BRK instruction forces the generation of an interrupt request. The program counter and processor status are pushed on the stack then the IRQ interrupt vector at $FFFE/F is loaded into the PC and the break flag in the status set to one.
+        /// The interpretation of a BRK depends on the operating system. On the BBC Microcomputer it is used by language ROMs to signal run time errors but it could be used for other purposes (e.g. calling operating system functions, etc.).
+        ///  - B - Break Command - Set to 1
+        case BRK(BRK_OPCODE)
+
+        /// BVC - Branch if Overflow Clear
+        /// If the overflow flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        case BVC(BVC_OPCODE)
+
+        /// BVS - If the overflow flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        /// If the overflow flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        case BVS(BVS_OPCODE)
+
+        /// CLC - Clear Carry Flag
+        /// C = 0
+        /// - C - Carry Flag - Set to 0
+        case CLC(CLC_OPCODE)
+
+        /// CLD - Clear Decimal Mode
+        /// The state of the decimal flag is uncertain when the CPU is powered up and it is not reset when an interrupt is generated. In both cases you should include an explicit CLD to ensure that the flag is cleared before performing addition or subtraction.
+        /// D = 0
+        /// - D - Decimal Mode - Set to 0
+        case CLD(CLD_OPCODE)
+
+        /// CLI - Clear Interrupt Disable
+        /// Clears the interrupt disable flag allowing normal interrupt requests to be serviced.
+        /// I = 0
+        /// - I - Interrupt Disable - Set to 0
+        case CLI(CLI_OPCODE)
+
+        /// CLV - Clear Interrupt Disable
+        /// V = 0
+        /// - V - Overflow Flag - Set to 0
+        case CLV(CLV_OPCODE)
+
+        /// CMP - Compare
+        /// Z,C,N = A-M
+        /// This instruction compares the contents of the accumulator with another memory held value and sets the zero and carry flags as appropriate.
+        ///  - C - Carry Flag - Set if A >= M
+        ///  - Z - Zero Flag - Set if A = M
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case CMP(CMP_OPCODE)
+
+        /// CPX - Compare X Registe
+        /// Z,C,N = X-M
+        /// This instruction compares the contents of the X register with another memory held value and sets the zero and carry flags as appropriate.
+        ///  - C - Carry Flag - Set if X >= M
+        ///  - Z - Zero Flag - Set if X = M
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case CPX(CPX_OPCODE)
+
+        /// CPX - Compare Y Registe
+        /// Z,C,N = Y-M
+        /// This instruction compares the contents of the Y register with another memory held value and sets the zero and carry flags as appropriate.
+        ///  - C - Carry Flag - Set if Y >= M
+        ///  - Z - Zero Flag - Set if Y = M
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case CPY(CPY_OPCODE)
+
+        /// DEC - Decrement Memory
+        /// M,Z,N = M-1
+        /// Subtracts one from the value held at a specified memory location setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case DEC(DEC_OPCODE)
+
+        /// DEX - Decrement X Register
+        /// X,Z,N = X-1
+        /// Subtracts one from the X register setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case DEX(DEX_OPCODE)
+
+        /// DEY - Decrement Y Register
+        /// Y,Z,N = Y-1
+        /// Subtracts one from the Y register setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case DEY(DEY_OPCODE)
+
+        /// EOR - Exclusive OR
+        /// A,Z,N = A^M
+        /// An exclusive OR is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case EOR(EOR_OPCODE)
+
+        /// INC - Increment Memory
+        /// M,Z,N = M + 1
+        /// Adds one to the value held at a specified memory location setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case INC(INC_OPCODE)
+
+        /// INX - Increment X Register
+        /// X,Z,N = X+1
+        /// Adds one to the X register setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case INX(INX_OPCODE)
+
+        /// INY - Increment X Register
+        /// Y,Z,N = Y+1
+        /// Adds one to the Y register setting the zero and negative flags as appropriate.
+        ///  - Z - Zero Flag - Set if result = 0
+        ///  - N - Negative Flag - Set if bit 7 of result is set
+        case INY(INY_OPCODE)
+
+        /// JMP - Jump
+        /// Sets the program counter to the address specified by the operand.
+        /// An original 6502 has does not correctly fetch the target address if the indirect vector falls on a page boundary (e.g. $xxFF where xx is any value from $00 to $FF). In this case fetches the LSB from $xxFF as expected but takes the MSB from $xx00. This is fixed in some later chips like the 65SC02 so for compatibility always ensure the indirect vector is not at the end of the page.
+        case JMP(JMP_OPCODE)
+
+        /// JSR - Jump to Subroutine
+        /// The JSR instruction pushes the address (minus one) of the return point on to the stack and then sets the program counter to the target memory address.
+        case JSR(JSR_OPCODE)
 
         /// LDA - Load Accumulator
         /// A,Z,N = M
@@ -64,7 +239,7 @@ extension CPU {
         /// LSR - Logical Shift Right
         /// A,C,Z,N = A/2 or M,C,Z,N = M/2
         /// Each of the bits in A or M is shift one place to the right. The bit that was in bit 0 is shifted into the carry flag. Bit 7 is set to zero.
-        ///  - C - Cerry Flag - Set to contents of old bit 0
+        ///  - C - Carry Flag - Set to contents of old bit 0
         ///  - Z - Zero Flag - Set if A = 0
         ///  - N - Negative Flag - Set if bit 7 of A is set
         case LSR(LSR_OPCODE)
@@ -214,6 +389,58 @@ extension CPU {
                 self = .AND(AND_OPCODE(byte: byte))
             case 0x0A, 0x06, 0x16, 0x0E, 0x1E:
                 self = .ASL(ASL_OPCODE(byte: byte))
+            case 0x90:
+                self = .BCC(BCC_OPCODE(byte: byte))
+            case 0xB0:
+                self = .BCS(BCS_OPCODE(byte: byte))
+            case 0xF0:
+                self = .BEQ(BEQ_OPCODE(byte: byte))
+            case 0x24, 0x2C:
+                self = .BIT(BIT_OPCODE(byte: byte))
+            case 0x30:
+                self = .BMI(BMI_OPCODE(byte: byte))
+            case 0xD0:
+                self = .BNE(BNE_OPCODE(byte: byte))
+            case 0x10:
+                self = .BPL(BPL_OPCODE(byte: byte))
+            case 0x00:
+                self = .BRK(BRK_OPCODE(byte: byte))
+            case 0x50:
+                self = .BVC(BVC_OPCODE(byte: byte))
+            case 0x70:
+                self = .BVS(BVS_OPCODE(byte: byte))
+            case 0x18:
+                self = .CLC(CLC_OPCODE(byte: byte))
+            case 0xD8:
+                self = .CLD(CLD_OPCODE(byte: byte))
+            case 0x58:
+                self = .CLI(CLI_OPCODE(byte: byte))
+            case 0xB8:
+                self = .CLV(CLV_OPCODE(byte: byte))
+            case 0xC9, 0xC5, 0xD5, 0xCD, 0xDD, 0xD9, 0xC1, 0xD1:
+                self = .CMP(CMP_OPCODE(byte: byte))
+            case 0xE0, 0xE4, 0xEC:
+                self = .CPX(CPX_OPCODE(byte: byte))
+            case 0xC0, 0xC4, 0xCC:
+                self = .CPY(CPY_OPCODE(byte: byte))
+            case 0xC6, 0xD6, 0xCE, 0xDE:
+                self = .DEC(DEC_OPCODE(byte: byte))
+            case 0xCA:
+                self = .DEX(DEX_OPCODE(byte: byte))
+            case 0x88:
+                self = .DEY(DEY_OPCODE(byte: byte))
+            case 0x49, 0x45, 0x55, 0x4D, 0x5D, 0x59, 0x41, 0x51:
+                self = .EOR(EOR_OPCODE(byte: byte))
+            case 0xE6, 0xF6, 0xEE, 0xFE:
+                self = .INC(INC_OPCODE(byte: byte))
+            case 0xE8:
+                self = .INX(INX_OPCODE(byte: byte))
+            case 0xC8:
+                self = .INY(INY_OPCODE(byte: byte))
+            case 0x4C, 0x6C:
+                self = .JMP(JMP_OPCODE(byte: byte))
+            case 0x20:
+                self = .JSR(JSR_OPCODE(byte: byte))
             case 0xA9, 0xA5, 0xB5, 0xAD, 0xBD, 0xB9, 0xA1, 0xB1:
                 self = .LDA(LDA_OPCODE(byte: byte))
             case 0xA2, 0xA6, 0xB6, 0xAE, 0xBE:
@@ -271,6 +498,67 @@ extension CPU {
             default:
                 self = .undefined(byte)
             }
+        }
+
+        static var allCases: [any OPCODE.Type] {
+            [
+                ADC_OPCODE.self,
+                AND_OPCODE.self,
+                ASL_OPCODE.self,
+                BCC_OPCODE.self,
+                BCS_OPCODE.self,
+                BEQ_OPCODE.self,
+                BIT_OPCODE.self,
+                BMI_OPCODE.self,
+                BNE_OPCODE.self,
+                BPL_OPCODE.self,
+                BRK_OPCODE.self,
+                BVC_OPCODE.self,
+                BVS_OPCODE.self,
+                CLC_OPCODE.self,
+                CLD_OPCODE.self,
+                CLI_OPCODE.self,
+                CLV_OPCODE.self,
+                CMP_OPCODE.self,
+                CPX_OPCODE.self,
+                CPY_OPCODE.self,
+                DEC_OPCODE.self,
+                DEX_OPCODE.self,
+                DEY_OPCODE.self,
+                EOR_OPCODE.self,
+                INC_OPCODE.self,
+                INX_OPCODE.self,
+                INY_OPCODE.self,
+                JMP_OPCODE.self,
+                JSR_OPCODE.self,
+                LDA_OPCODE.self,
+                LDX_OPCODE.self,
+                LDY_OPCODE.self,
+                LSR_OPCODE.self,
+                NOP_OPCODE.self,
+                ORA_OPCODE.self,
+                PHA_OPCODE.self,
+                PHP_OPCODE.self,
+                PLA_OPCODE.self,
+                PLP_OPCODE.self,
+                ROL_OPCODE.self,
+                ROR_OPCODE.self,
+                RTI_OPCODE.self,
+                RTS_OPCODE.self,
+                SBC_OPCODE.self,
+                SEC_OPCODE.self,
+                SED_OPCODE.self,
+                SEI_OPCODE.self,
+                STA_OPCODE.self,
+                STX_OPCODE.self,
+                STY_OPCODE.self,
+                TAX_OPCODE.self,
+                TAY_OPCODE.self,
+                TSX_OPCODE.self,
+                TXA_OPCODE.self,
+                TXS_OPCODE.self,
+                TYA_OPCODE.self
+            ]
         }
     }
 }

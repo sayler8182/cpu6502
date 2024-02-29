@@ -49,7 +49,7 @@ extension XCTestCase {
         XCTAssertEqual(
             memory[sp],
             value,
-            "Stack Pointer is incorrectly set \(memory[sp].hex) instead of \(value).hex",
+            "Stack Pointer is incorrectly set \(memory[sp].hex) instead of \(value.hex)",
             file: file,
             line: line
         )

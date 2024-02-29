@@ -26,15 +26,15 @@ final class CPUExecuteRTSTests: XCTestCase {
         cpu.SP = CPU.START_SP - 2
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_SP_FIRST_PAGE] = 0xAD
-        memory[CPU.START_SP_FIRST_PAGE - 1] = 0xFF // 0xFFAD
+        memory[CPU.START_SP_FIRST_PAGE - 1] = 0xFF // 0xADFF
 
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 6)
+            cycles: 1)
 
         XCTAssertEqual(cycles, 6)
-        XCTProgramCounter(pc: cpu.PC, equal: 0xFFAD + 1)
+        XCTProgramCounter(pc: cpu.PC, equal: 0xAE00)
         XCTAssertEqual(cpu.SP, CPU.START_SP)
         XCTFlagsUnchanged(from: initFlags, to: cpu.flags)
     }

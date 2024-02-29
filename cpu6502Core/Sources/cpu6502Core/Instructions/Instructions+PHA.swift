@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Push Accumulator
-    public enum PHA_OPCODE: Byte {
+    public enum PHA_OPCODE: Byte, OPCODE {
         /// 1B, 3C
         case IMPL = 0x48
 

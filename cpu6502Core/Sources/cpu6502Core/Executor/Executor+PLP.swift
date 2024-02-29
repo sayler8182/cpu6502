@@ -6,16 +6,13 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.PLP_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
-        var data: Byte = try cpu.pull(from: &memory)
+    ) throws -> ExecutorResult {
+        let data: Byte = try cpu.pull(from: &memory)
 
-        // break flag and bit 5 ignored
-        data = data & ~(CPU.StatusFlags.Flag.U.value | CPU.StatusFlags.Flag.B.value)
-        let u = cpu.flags.value & CPU.StatusFlags.Flag.U.value
-        let b = cpu.flags.value & CPU.StatusFlags.Flag.B.value
-        cpu.flags.value = data | u | b
+        // bit always set to 1
+        cpu.flags.value = data | CPU.StatusFlags.Flag.U.value
 
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, false)
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

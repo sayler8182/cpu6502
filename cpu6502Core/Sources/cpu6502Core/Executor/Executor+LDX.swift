@@ -6,20 +6,20 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.LDX_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         let addressingMode = cpu.addressingMode(
             from: opcode.addressingMode,
             memory: memory,
             size: opcode.size)
-        let (data, isCrossed) = try cpu.read(
+        let (data, additionalCycles) = try cpu.read(
             from: memory,
             for: addressingMode)
 
         cpu.registers.X = data
 
-        cpu.flags.setZero(cpu.registers.X)
-        cpu.flags.setNegative(cpu.registers.X)
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, isCrossed)
+        cpu.flags.Z = cpu.registers.X == 0
+        cpu.flags.N = (cpu.registers.X & CPU.StatusFlags.Flag.N.value) != 0
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, additionalCycles)
     }
 }

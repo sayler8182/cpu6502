@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Shift right value
-    public enum LSR_OPCODE: Byte {
+    public enum LSR_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case ACC = 0x4A
         /// 2B, 5C

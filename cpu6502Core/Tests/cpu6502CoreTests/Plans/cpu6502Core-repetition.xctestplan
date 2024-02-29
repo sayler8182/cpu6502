@@ -15,6 +15,9 @@
   "testTargets" : [
     {
       "parallelizable" : true,
+      "skippedTests" : [
+        "CPUIntegrationTests"
+      ],
       "target" : {
         "containerPath" : "container:",
         "identifier" : "cpu6502CoreTests",

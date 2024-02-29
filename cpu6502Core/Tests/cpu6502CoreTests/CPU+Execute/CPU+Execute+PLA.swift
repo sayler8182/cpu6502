@@ -30,7 +30,7 @@ final class CPUExecutePLATests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0b10001101)
         XCTAssertEqual(cycles, 4)
@@ -50,7 +50,7 @@ final class CPUExecutePLATests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
         XCTAssertEqual(cpu.registers.A, 0b00000000)
         XCTAssertEqual(cycles, 4)

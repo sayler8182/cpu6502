@@ -6,13 +6,13 @@ extension Executor {
         cpu: inout CPU,
         memory: inout Memory,
         opcode: CPU.Instruction.PHA_OPCODE
-    ) throws -> (size: Byte, cycles: Cycles, isCrossed: Bool) {
+    ) throws -> ExecutorResult {
         let data = cpu.registers.A
         try cpu.push(
             byte: data,
             to: &memory)
 
-        cpu.moveProgramCounter(opcode.size)
-        return (opcode.size, opcode.cycles, false)
+        cpu.PC += Word(opcode.size)
+        return (opcode.size, opcode.cycles, 0)
     }
 }

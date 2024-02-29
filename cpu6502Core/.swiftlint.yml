@@ -6,6 +6,8 @@ disabled_rules:
   - function_body_length
   - cyclomatic_complexity
   - large_tuple
+  - file_length
+  - type_body_length
 
 included: 
   - Sources

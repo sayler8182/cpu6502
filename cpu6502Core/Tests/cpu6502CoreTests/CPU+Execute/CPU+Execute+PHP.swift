@@ -28,8 +28,10 @@ final class CPUExecutePHPTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 3)
-        let result = initFlags.value | 0b00110000
+            cycles: 1)
+
+        // B flag is set
+        let result = initFlags.value | CPU.StatusFlags.Flag.B.value
 
         XCTAssertEqual(cycles, 3)
         XCTProgramCounter(pc: cpu.PC, size: opcode.size)

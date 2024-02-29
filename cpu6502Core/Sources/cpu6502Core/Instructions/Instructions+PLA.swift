@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Pull Accumulator
-    public enum PLA_OPCODE: Byte {
+    public enum PLA_OPCODE: Byte, OPCODE {
         /// 1B, 4C
         case IMPL = 0x68
 

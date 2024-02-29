@@ -14,8 +14,8 @@ extension Word {
 
 extension Memory {
     static var random: Memory {
-        var data = [Byte](repeating: 0, count: Int(Memory.SIZE))
-        for i in 0..<Int(Memory.SIZE) {
+        var data = [Byte](repeating: 0, count: Memory.SIZE)
+        for i in 0..<Memory.SIZE {
             data[i] = .random
         }
         return Memory(data)

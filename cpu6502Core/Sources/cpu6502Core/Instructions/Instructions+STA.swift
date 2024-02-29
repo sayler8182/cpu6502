@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Store Accumulator
-    public enum STA_OPCODE: Byte {
+    public enum STA_OPCODE: Byte, OPCODE {
         /// 2B, 3C
         case ZP = 0x85
         /// 2B, 4C

@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Return from Interrupt
-    public enum RTI_OPCODE: Byte {
+    public enum RTI_OPCODE: Byte, OPCODE {
         /// 1B, 6C
         case IMPL = 0x40
 

@@ -1,7 +1,7 @@
 public struct Memory {
-    public static let SIZE: Word = 0xFFFF
+    public static let SIZE: Int = 0xFFFF + 1
 
-    private var data: [Byte] = [Byte](repeating: 0, count: Int(Memory.SIZE))
+    private var data: [Byte] = [Byte](repeating: 0, count: Memory.SIZE)
 
     public init() { /* public init */ }
 
@@ -15,6 +15,14 @@ public struct Memory {
     }
 
     mutating public func reset() {
-        data = [Byte](repeating: 0, count: Int(Memory.SIZE))
+        data = [Byte](repeating: 0, count: Memory.SIZE)
+    }
+
+    var hex: String {
+        var result: String = ""
+        for i in 0..<Memory.SIZE {
+            result += "\(Word(i).hex): \(self[Word(i)].hex)\n"
+        }
+        return result
     }
 }

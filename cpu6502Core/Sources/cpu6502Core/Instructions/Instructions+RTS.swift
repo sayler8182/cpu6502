@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Return from Subroutine
-    public enum RTS_OPCODE: Byte {
+    public enum RTS_OPCODE: Byte, OPCODE {
         /// 1B, 6C
         case IMPL = 0x60
 

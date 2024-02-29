@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Store Y Register
-    public enum STY_OPCODE: Byte {
+    public enum STY_OPCODE: Byte, OPCODE {
         /// 2B, 3C
         case ZP = 0x84
         /// 2B, 4C

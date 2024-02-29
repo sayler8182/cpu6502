@@ -30,14 +30,11 @@ final class CPUExecutePLPTests: XCTestCase {
         let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
-            cycles: 4)
+            cycles: 1)
 
-        // break flag and bit 5 ignored
+        // bit 5 ignored
         var result: Byte = 0b10101101
-        result = result & ~(CPU.StatusFlags.Flag.U.value | CPU.StatusFlags.Flag.B.value)
-        let u = initFlags.value & CPU.StatusFlags.Flag.U.value
-        let b = initFlags.value & CPU.StatusFlags.Flag.B.value
-        result = result | u | b
+        result = result | CPU.StatusFlags.Flag.U.value
 
         XCTAssertEqual(cpu.flags.value, result)
         XCTAssertEqual(cycles, 4)

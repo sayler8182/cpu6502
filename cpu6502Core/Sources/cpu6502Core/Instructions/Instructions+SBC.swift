@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Subtract with Carry
-    public enum SBC_OPCODE: Byte {
+    public enum SBC_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0xE9
         /// 2B, 3C

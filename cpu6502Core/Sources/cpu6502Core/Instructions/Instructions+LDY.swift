@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Load Y register
-    public enum LDY_OPCODE: Byte {
+    public enum LDY_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0xA0
         /// 2B, 3C

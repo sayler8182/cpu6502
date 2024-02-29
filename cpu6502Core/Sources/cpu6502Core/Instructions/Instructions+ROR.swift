@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Rotate right
-    public enum ROR_OPCODE: Byte {
+    public enum ROR_OPCODE: Byte, OPCODE {
         /// 1B, 2C
         case ACC = 0x6A
         /// 2B, 5C

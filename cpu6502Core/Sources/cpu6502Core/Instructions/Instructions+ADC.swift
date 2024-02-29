@@ -1,6 +1,6 @@
 extension CPU.Instruction {
     /// Add with Carry
-    public enum ADC_OPCODE: Byte {
+    public enum ADC_OPCODE: Byte, OPCODE {
         /// 2B, 2C
         case IM = 0x69
         /// 2B, 3C
