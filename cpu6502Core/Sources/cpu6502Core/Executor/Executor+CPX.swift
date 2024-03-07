@@ -17,7 +17,7 @@ extension Executor {
 
         let base = cpu.registers.X
         let result = base
-            .subtractingWithOverflow(data)
+             &- (data)
 
         cpu.flags.C = base >= data
         cpu.flags.Z = result == 0

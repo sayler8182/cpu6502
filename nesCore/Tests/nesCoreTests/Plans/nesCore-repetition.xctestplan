@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "560D5DC3-33DE-456B-8E95-725F7B298257",
+      "name" : "Repetition",
+      "options" : {
+        "testRepetitionMode" : "fixedIterations"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "maximumTestRepetitions" : 20,
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "CPUIntegrationTests"
+      ],
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "cpu6502CoreTests",
+        "name" : "cpu6502CoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

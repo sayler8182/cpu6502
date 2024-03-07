@@ -62,10 +62,10 @@ internal extension CPU {
                 let address = Word(byte)
                 return address
             case .zeroPageX(let byte):
-                let address = Word(byte.addingWithOverflow(registers.X))
+                let address = Word(byte &+ (registers.X))
                 return address
             case .zeroPageY(let byte):
-                let address = Word(byte.addingWithOverflow(registers.Y))
+                let address = Word(byte &+ (registers.Y))
                 return address
             case .relative(let byte):
                 let address = Word(byte)
@@ -74,10 +74,10 @@ internal extension CPU {
                 let address = word
                 return address
             case .absoluteX(let word):
-                let address = word.addingWithOverflow(registers.X)
+                let address = word &+ Word(registers.X)
                 return address
             case .absoluteY(let word):
-                let address = word.addingWithOverflow(registers.Y)
+                let address = word &+ Word(registers.Y)
                 return address
             case .indirect(let word):
                 let address = isLittleEndian
@@ -114,16 +114,16 @@ internal extension CPU {
             let address = Word(byte)
             return (memory[address], 0)
         case .zeroPageX(let byte):
-            let address = Word(byte.addingWithOverflow(registers.X))
+            let address = Word(byte &+ (registers.X))
             return (memory[address], 0)
         case .zeroPageY(let byte):
-            let address = Word(byte.addingWithOverflow(registers.Y))
+            let address = Word(byte &+ (registers.Y))
             return (memory[address], 0)
         case .absolute(let word):
             return (memory[word], 0)
         case .absoluteX(let word):
             let address = word
-            let addressWithOffset = address.addingWithOverflow(registers.X)
+            let addressWithOffset = address &+ Word(registers.X)
             // crossing page
             if (address ^ addressWithOffset) >> 8 != 0 {
                 return (memory[addressWithOffset], 1)
@@ -132,7 +132,7 @@ internal extension CPU {
             }
         case .absoluteY(let word):
             let address = word
-            let addressWithOffset = address.addingWithOverflow(registers.Y)
+            let addressWithOffset = address &+ Word(registers.Y)
             // crossing page
             if (address ^ addressWithOffset) >> 8 != 0 {
                 return (memory[addressWithOffset], 1)
@@ -187,7 +187,7 @@ internal extension CPU {
     ) throws {
         let address = 0x0100 | Word(SP)
         memory[address] = byte
-        SP = SP.subtractingWithOverflow(Byte(1))
+        SP = SP &- (Byte(1))
     }
 
     mutating func push(
@@ -206,7 +206,7 @@ internal extension CPU {
     mutating func pull(
         from memory: inout Memory
     ) throws -> Byte {
-        SP = SP.addingWithOverflow(Byte(1))
+        SP = SP &+ (Byte(1))
         let address = 0x0100 | Word(SP)
         let byte = memory[address]
         return byte

@@ -27,7 +27,6 @@ final class CPUExecutePLPTests: XCTestCase {
         memory[CPU.START_PC] = opcode.byte
         memory[CPU.START_SP_FIRST_PAGE] = 0b10101101
 
-        let initFlags = cpu.flags
         let cycles = try cpu.execute(
             memory: &memory,
             cycles: 1)

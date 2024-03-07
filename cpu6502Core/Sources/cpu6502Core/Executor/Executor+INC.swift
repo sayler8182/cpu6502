@@ -16,7 +16,7 @@ extension Executor {
             for: addressingMode)
 
         let result = data
-            .addingWithOverflow(1)
+             &+ (1)
 
         try cpu.write(
             byte: result,

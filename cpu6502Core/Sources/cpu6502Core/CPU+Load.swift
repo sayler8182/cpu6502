@@ -83,7 +83,7 @@ public extension CPU {
             var address = record.address
             for byte in record.data {
                 memory[address] = byte
-                address = address.addingWithOverflow(Byte(1))
+                address = address &+ (Word(1))
             }
         }
     }

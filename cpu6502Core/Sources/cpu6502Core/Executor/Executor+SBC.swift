@@ -19,8 +19,8 @@ extension Executor {
             let cBit: Byte = cpu.flags.C ? 0b0 : 0b1
             let base = cpu.registers.A
             let resultWord = Word(base)
-                .subtractingWithOverflow(Word(data))
-                .subtractingWithOverflow(Word(cBit))
+            &- Word(data)
+            &- Word(cBit)
             let resultByte = Byte(resultWord & 0xFF)
 
             cpu.flags.C = (resultWord >> 8) == 0
@@ -34,18 +34,18 @@ extension Executor {
         } else {
             let cBit: Byte = cpu.flags.C ? 0b0 : 0b1
             let lowDigit = Word(cpu.registers.A & 0x0F)
-                .subtractingWithOverflow(Word(data & 0x0F))
-                .subtractingWithOverflow(Word(cBit))
-            let lowDigitNew = lowDigit > 0xFF ? (lowDigit.subtractingWithOverflow(Byte(0x06)) & 0x0F) : lowDigit
-            let highDigitCarry = (lowDigit > 0xFF ? lowDigitNew.subtractingWithOverflow(Byte(0x10)) : lowDigitNew)
+            &- Word(data & 0x0F)
+            &- Word(cBit)
+            let lowDigitNew = lowDigit > 0xFF ? ((lowDigit &- Word(0x06)) & 0x0F) : lowDigit
+            let highDigitCarry = (lowDigit > 0xFF ? lowDigitNew &- Word(0x10) : lowDigitNew)
 
             var result = Word(cpu.registers.A & 0xF0)
-                .subtractingWithOverflow(Word(data & 0xF0))
-                .addingWithOverflow(highDigitCarry)
+            &- Word(data & 0xF0)
+            &+ highDigitCarry
 
             cpu.flags.N = (Byte(result & 0xFF) & CPU.StatusFlags.Flag.N.value) != 0
 
-            result = result >= 0xFF ? result.subtractingWithOverflow(Byte(0x60)) : result
+            result = result >= 0xFF ? result &- Word(0x60) : result
             cpu.registers.A = Byte((result & 0xFF))
 
             let resultV = (Byte(result & 0xFF) ^ cpu.registers.A) & (Byte(result & 0xFF) ^ data)

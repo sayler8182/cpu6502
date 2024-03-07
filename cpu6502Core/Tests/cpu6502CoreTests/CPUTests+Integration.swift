@@ -34,7 +34,7 @@ final class CPUIntegrationTests: XCTestCase {
             }
 
             if cpu.PC == lastPC {
-                XCTFail("Integration failed")
+                XCTFail("Integration failed: \(lastPC.hex)")
                 return
             }
 

@@ -7,7 +7,7 @@ extension Executor {
         memory: inout Memory,
         opcode: CPU.Instruction.DEX_OPCODE
     ) throws -> ExecutorResult {
-        cpu.registers.X = cpu.registers.X.subtractingWithOverflow(1)
+        cpu.registers.X = cpu.registers.X &- (1)
 
         cpu.flags.Z = cpu.registers.X == 0
         cpu.flags.N = (cpu.registers.X & CPU.StatusFlags.Flag.N.value) != 0
